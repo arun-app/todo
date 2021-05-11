@@ -1,32 +1,48 @@
 import React, {Component} from "react";
+import TodoItems  from './TodoItems';
 
 class TodoList extends Component {
     constructor(props){
         super(props);
 
         this.state ={
-            items:[]
+            items:[],
+            item : ""
         };
 
-        this.additem = this.additem.bind(this);
+        
     }
 
-additem(e){
-    if(this._inputElement !==""){
+additem =(e)=>{
+    e.preventDefault();
+    
+    if(this.state.item !==""){
         var newItem ={
-            text :this._inputElement.value,
+            text :this.state.item,
             key : Date.now()
         };
-        this.setState((prevState) => {
-            return{
-                items: prevState.items.concat(newItem)
-            };
+        this.setState(  {
+            
+            
+                items: [...this.state.items,newItem]
+            
         });
     }
-    this._inputElement.value ="";
-    console.log(this.state.items);
+   
 
-    e.preventDefault();
+   
+}
+unChangeTask =(e)=>{
+    this.setState({item:e.target.value});
+}
+
+deleteItems= (key) =>{
+    var filteredItems =this.state.items.filter(function(item){
+        return(item.key !==key )
+    });
+    this.setState({
+        items: filteredItems
+    });
 }
 
 
@@ -36,11 +52,12 @@ additem(e){
             <div className="todoListMain">
             <div className="header">
             <form onSubmit={this.additem}>
-            <input ref={(a) => this._inputElement =a} placeholder="enter task">
+            <input value ={this.state.item} onChange={this.unChangeTask} placeholder="enter task">
             </input>
             <button type="submit">add</button>
             </form>
             </div>
+                <TodoItems entries = {this.state.items} delete ={this.deleteItems} />
             </div>
             
         );
