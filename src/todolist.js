@@ -1,66 +1,76 @@
-import React, {Component} from "react";
+import React, {useState} from "react";
 import TodoItems  from './TodoItems';
 
-class TodoList extends Component {
-    constructor(props){
-        super(props);
+function Todolist ()
+{
+    const [Items,setItems] = React.useState([{
+         text:'this is sample input',
+         key:Date.now()
 
-        this.state ={
-            items:[],
-            item : ""
-        };
-
+    }]);
+    const additem =e =>{
+        e.preventDefault();
         
-    }
-
-additem =(e)=>{
-    e.preventDefault();
+        // if(Items !==""){
+        //     var newItem ={
+        //         setItems
+        //     };
+            
+        //     {setItems} => newItem;
+        // }
+       
     
-    if(this.state.item !==""){
-        var newItem ={
-            text :this.state.item,
-            key : Date.now()
-        };
-        this.setState(  {
-            
-            
-                items: [...this.state.items,newItem]
-            
+       
+    }
+   const unChangeTask = e=>{
+        setItems(e.target.value);
+    };
+  const  deleteItems= (key) =>{
+        var filteredItems =setItems.filter(function(item){
+            return(item.key !==key )
+        });
+        this.setState({
+            items: filteredItems
         });
     }
-   
-
-   
-}
-unChangeTask =(e)=>{
-    this.setState({item:e.target.value});
-}
-
-deleteItems= (key) =>{
-    var filteredItems =this.state.items.filter(function(item){
-        return(item.key !==key )
-    });
-    this.setState({
-        items: filteredItems
-    });
-}
-
-
-    render(){
-        return(
+    return(
             
-            <div className="todoListMain">
-            <div className="header">
-            <form onSubmit={this.additem}>
-            <input value ={this.state.item} onChange={this.unChangeTask} placeholder="enter task">
-            </input>
-            <button type="submit">add</button>
-            </form>
-            </div>
-                <TodoItems entries = {this.state.items} delete ={this.deleteItems} />
-            </div>
-            
-        );
-    }
+        <div className="todoListMain">
+        <div className="header">
+        <form onSubmit={additem}>
+        <input value ={setItems} onChange={unChangeTask} placeholder="enter task">
+        </input>
+        <button type="submit">add</button>
+        </form>
+        </div>
+            <TodoItems entries = {Items} delete ={deleteItems} edit ={this.editItems} />
+        </div>
+        
+    );
 }
-export default TodoList;
+
+
+
+
+
+
+
+
+
+// editItems =(key) =>{
+//     var editItems = this.state.items.handleEvent(function(item){
+//         return(items.text ===text)
+    
+// });
+//     this.setState({
+//         items:editItems
+//     });
+// }
+
+
+
+
+ 
+    
+
+export default Todolist();
